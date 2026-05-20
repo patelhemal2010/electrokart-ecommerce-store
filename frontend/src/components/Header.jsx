@@ -30,21 +30,20 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-light-50 via-white to-light-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Banner with Countdown */}
-        <div className="bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-500 rounded-2xl p-8 mb-12 relative overflow-hidden shadow-light-xl">
+    <div className="bg-gradient-to-br from-light-50 via-white to-light-50 py-6 sm:py-12 w-full">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
+        <div className="bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-500 rounded-xl sm:rounded-2xl p-4 sm:p-8 mb-8 sm:mb-12 relative overflow-hidden shadow-light-xl w-full">
           <div className="absolute inset-0 bg-white opacity-10"></div>
           <div className="relative z-10">
             <div className="flex flex-col lg:flex-row items-center justify-between">
               <div className="text-center lg:text-left mb-6 lg:mb-0">
                 <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
                   <FaFire className="text-yellow-400 text-3xl animate-pulse" />
-                  <h1 className="text-4xl lg:text-5xl font-bold text-white">
+                  <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white">
                     MEGA SALE
                   </h1>
                 </div>
-                <p className="text-xl text-yellow-100 mb-4">
+                <p className="text-base sm:text-xl text-yellow-100 mb-4">
                   Up to 70% OFF on Electronics
                 </p>
                 <div className="flex items-center justify-center lg:justify-start gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full w-fit mx-auto lg:mx-0 border border-primary-200 shadow-light">
@@ -58,14 +57,14 @@ const Header = () => {
                 <img
                   src={dealProduct?.image || "/placeholder-product.jpg"}
                   alt="Deal Product"
-                  className="w-48 h-48 lg:w-64 lg:h-64 object-contain mx-auto"
+                  className="w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 object-contain mx-auto max-w-full"
                 />
                 <div className="mt-4">
                   <h3 className="text-white font-bold text-xl mb-2">
                     {dealProduct?.name || "Special Deal"}
                   </h3>
                   <div className="flex items-center justify-center gap-2 mb-2">
-                    <span className="text-3xl font-bold text-yellow-300">
+                    <span className="text-xl sm:text-3xl font-bold text-yellow-300">
                       ₹{dealProduct ? Math.round(dealProduct.price * 0.3).toLocaleString() : "99,999"}
                     </span>
                     <span className="text-lg text-gray-300 line-through">

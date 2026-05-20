@@ -2,8 +2,6 @@ import { useState } from "react";
 import {
   AiOutlineHome,
   AiOutlineShopping,
-  AiOutlineLogin,
-  AiOutlineUserAdd,
   AiOutlineShoppingCart,
   AiOutlineCamera,
   AiOutlineHeart,
@@ -21,11 +19,6 @@ const Navigation = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,102 +35,86 @@ const Navigation = () => {
     }
   };
 
+  const cartCount = cartItems.reduce((a, c) => a + c.qty, 0);
+
+  const navItemClass =
+    "flex items-center gap-3 px-3 py-3 rounded-lg transition-all hover:bg-primary-50 hover:text-primary-600";
+
   return (
-    <div
-      style={{ zIndex: 9999 }}
-      className={`${
-        showSidebar ? "hidden" : "flex"
-      } xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-light-800 bg-gradient-to-b from-white to-light-50 h-[calc(100vh-4rem)] fixed top-16 border-r border-primary-200 shadow-light-lg`}
+    <aside
       id="navigation-container"
+      style={{ zIndex: 9999 }}
+      className="hidden lg:flex flex-col justify-between p-3 text-light-800 bg-gradient-to-b from-white to-light-50 fixed left-0 top-16 h-[calc(100vh-4rem)] border-r border-primary-200 shadow-light-lg"
     >
-      <div className="flex flex-col justify-center space-y-4">  
-        <Link
-          to="/"
-          className="flex items-center transition-transform transform hover:translate-x-2"
-        >
-          <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
-          <span className="hidden nav-item-name mt-[3rem]">HOME</span>{" "}
+      <div className="flex flex-col space-y-1 pt-2">
+        <Link to="/" className={navItemClass}>
+          <AiOutlineHome size={24} />
+          <span className="nav-item-name whitespace-nowrap">HOME</span>
         </Link>
 
-        <Link
-          to="/shop"
-          className="flex items-center transition-transform transform hover:translate-x-2"
-        >
-          <AiOutlineShopping className="mr-2 mt-[3rem]" size={26} />
-          <span className="hidden nav-item-name mt-[3rem]">SHOP</span>{" "}
+        <Link to="/shop" className={navItemClass}>
+          <AiOutlineShopping size={24} />
+          <span className="nav-item-name whitespace-nowrap">SHOP</span>
         </Link>
 
-        <Link
-          to="/visual-search"
-          className="flex items-center transition-transform transform hover:translate-x-2"
-        >
-          <AiOutlineCamera className="mr-2 mt-[3rem]" size={26} />
-          <span className="hidden nav-item-name mt-[3rem]">VISUAL SEARCH</span>{" "}
+        <Link to="/visual-search" className={navItemClass}>
+          <AiOutlineCamera size={24} />
+          <span className="nav-item-name whitespace-nowrap">VISUAL SEARCH</span>
         </Link>
 
-        <Link to="/cart" className="flex relative">
-          <div className="flex items-center transition-transform transform hover:translate-x-2">
-            <AiOutlineShoppingCart className="mt-[3rem] mr-2" size={26} />
-            <span className="hidden nav-item-name mt-[3rem]">Cart</span>{" "}
-          </div>
-
-          <div className="absolute top-9">
-            {cartItems.length > 0 && (
-              <span>
-                <span className="px-1 py-0 text-sm text-white bg-pink-500 rounded-full">
-                  {cartItems.reduce((a, c) => a + c.qty, 0)}
-                </span>
-              </span>
-            )}
-          </div>
+        <Link to="/cart" className={`${navItemClass} relative`}>
+          <AiOutlineShoppingCart size={24} />
+          <span className="nav-item-name whitespace-nowrap">Cart</span>
+          {cartCount > 0 && (
+            <span className="absolute left-6 top-1 min-w-[18px] h-[18px] px-1 text-xs text-white bg-pink-500 rounded-full flex items-center justify-center">
+              {cartCount}
+            </span>
+          )}
         </Link>
 
-        <Link to="/favorite" className="flex relative">
-          <div className="flex justify-center items-center transition-transform transform hover:translate-x-2">
-            <AiOutlineHeart className="mt-[3rem] mr-2" size={26} />
-            <span className="hidden nav-item-name mt-[3rem]">
-              Favorites
-            </span>{" "}
-            <FavoritesCount />
-          </div>
+        <Link to="/favorite" className={`${navItemClass} relative`}>
+          <AiOutlineHeart size={24} />
+          <span className="nav-item-name whitespace-nowrap">Favorites</span>
+          <FavoritesCount />
         </Link>
       </div>
 
-      <div className="relative">
+      <div className="relative pb-4">
         <button
-          onClick={toggleDropdown}
-          className="flex items-center text-gray-800 focus:outline-none"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+          className="flex items-center text-gray-800 focus:outline-none w-full px-3"
+          type="button"
         >
-          {userInfo ? (
-            <span className="text-white">{userInfo.username}</span>
-          ) : (
-            <></>
-          )}
           {userInfo && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`h-4 w-4 ml-1 ${
-                dropdownOpen ? "transform rotate-180" : ""
-              }`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d={dropdownOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-              />
-            </svg>
+            <>
+              <span className="nav-item-name text-sm font-medium text-primary-700 truncate">
+                {userInfo.username}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-4 w-4 ml-auto shrink-0 transition-transform ${
+                  dropdownOpen ? "rotate-180" : ""
+                }`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </>
           )}
         </button>
 
         {dropdownOpen && userInfo && (
           <ul
-            className={`absolute right-0 mt-2 mr-14 space-y-2 bg-white text-gray-600 ${
-              !userInfo.isAdmin ? "-top-20" : "-top-80"
-            } `}
+            className={`absolute left-0 right-0 bottom-full mb-2 bg-white rounded-lg shadow-lg border border-gray-100 text-gray-600 text-sm overflow-hidden ${
+              userInfo.isAdmin ? "" : ""
+            }`}
           >
             {userInfo.isAdmin && (
               <>
@@ -183,38 +160,10 @@ const Navigation = () => {
                 </li>
               </>
             )}
-
-            {/* <li>
-              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">
-                Profile
-              </Link>
-            </li> */}
-            {/* <li>
-              <button
-                onClick={logoutHandler}
-                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </li> */}
-          </ul>
-        )}
-        {!userInfo && (
-          <ul>
-            {/* <li>
-              <Link
-                to="/login"
-                className="flex items-center mt-5 transition-transform transform hover:translate-x-2"
-              >
-                <AiOutlineLogin className="mr-2 mt-[4px]" size={26} />
-                <span className="hidden nav-item-name">LOGIN</span>
-              </Link>
-            </li> */}
-          
           </ul>
         )}
       </div>
-    </div>
+    </aside>
   );
 };
 

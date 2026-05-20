@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navigation from "./pages/Auth/Navigation";
+import MobileBottomNav from "./components/MobileBottomNav";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TopBar from "./components/TopBar";
@@ -34,17 +35,21 @@ const App = () => {
     location.pathname === "/login" || location.pathname === "/register";
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       <ToastContainer />
-      {/* Show header but hide navigation and footer for auth pages */}
       <TopBar />
       {!isAdminRoute && !isAuthPage && <Navigation />}
+      {!isAdminRoute && !isAuthPage && <MobileBottomNav />}
       {isAdminRoute && !isAdminAuthPage && <AdminNavigation />}
       <main
-        className={`py-6 flex-1 transition-all duration-300 ${
-          isAuthPage ? "ml-0" : isAdminRoute && !isAdminAuthPage ? "ml-[15%]" : "ml-16"
+        className={`flex-1 w-full max-w-full transition-all duration-300 px-2 sm:px-4 ${
+          isAuthPage
+            ? "ml-0 py-6"
+            : isAdminRoute && !isAdminAuthPage
+              ? "ml-0 md:ml-[15%] py-4 sm:py-6"
+              : "ml-0 lg:ml-16 py-4 sm:py-6 pb-20 lg:pb-6"
         }`}
-        style={{ minHeight: isAuthPage ? 'calc(100vh - 4rem)' : 'calc(100vh - 4rem)' }}
+        style={{ minHeight: "calc(100vh - 4rem)" }}
       >
         {/* All nested routes will render here */}
         <Outlet />
