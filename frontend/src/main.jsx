@@ -38,7 +38,7 @@ import OrderList from "./pages/Admin/OrderList.jsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import FreshSearchResults from "./pages/FreshSearchResults";
-import UserOrder from "./pages/User/userorder.jsx"; // ✅ import here
+import UserOrder from "./pages/User/UserOrder.jsx";
 import VisualSearch from "./pages/VisualSearch";
 import VisualSearchResults from "./pages/VisualSearchResults";
 import ReturnPolicy from "./pages/ReturnPolicy";
